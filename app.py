@@ -63,35 +63,33 @@ def predict_single_lead(model, label_encoders, feature_cols, lead_data):
 def predict_batch(model, label_encoders, feature_cols, df):
     """Predict best hour for multiple leads (fully vectorized)."""
     hours = list(range(9, 18))
-    all_rows = []
+    n_hours = len(hours)
+    n_leads = len(df)
     
-    for idx, row in df.iterrows():
-        encoded = encode_lead(row.to_dict(), label_encoders)
-        for hour in hours:
-            r = encoded.copy()
-            r['CallHour'] = hour
-            r['_lead_idx'] = idx
-            r['_hour'] = hour
-            all_rows.append(r)
+    expanded = df.loc[df.index.repeat(n_hours)].reset_index(drop=True)
+    expanded['CallHour'] = hours * n_leads
+    expanded['_lead_idx'] = np.repeat(df.index.values, n_hours)
     
-    batch_df = pd.DataFrame(all_rows)
-    X = batch_df[feature_cols]
-    probs = model.predict_proba(X)[:, 1]
+    for col in CAT_FEATURES:
+        le = label_encoders[col]
+        expanded[col] = expanded[col].fillna('Unknown').astype(str)
+        expanded[col + '_encoded'] = expanded[col].apply(
+            lambda x: le.transform([x])[0] if x in le.classes_ else -1
+        )
     
-    batch_df['Probability'] = probs
+    X = expanded[feature_cols]
+    expanded['Probability'] = model.predict_proba(X)[:, 1]
     
-    results = []
-    for lead_idx in df.index:
-        lead_rows = batch_df[batch_df['_lead_idx'] == lead_idx]
-        best_row = lead_rows.loc[lead_rows['Probability'].idxmax()]
-        results.append({
-            'Lead_Index': lead_idx,
-            'Best_Hour': format_hour(int(best_row['_hour'])),
-            'Conversion_Probability': f"{best_row['Probability']*100:.1f}%",
-            'Probability_Raw': best_row['Probability']
-        })
+    best = expanded.loc[expanded.groupby('_lead_idx')['Probability'].idxmax()]
     
-    return pd.DataFrame(results)
+    results = pd.DataFrame({
+        'Lead_Index': best['_lead_idx'].values,
+        'Best_Hour': best['CallHour'].apply(format_hour).values,
+        'Conversion_Probability': (best['Probability'] * 100).apply(lambda x: f"{x:.1f}%").values,
+        'Probability_Raw': best['Probability'].values
+    })
+    
+    return results
 
 
 def single_lead_mode(model, label_encoders, feature_cols, categories):
@@ -241,18 +239,6 @@ def dashboard_mode():
                      orientation='h')
         fig.update_layout(showlegend=False, coloraxis_showscale=False)
         st.plotly_chart(fig, use_container_width=True)
-    
-    st.markdown("---")
-    st.subheader("Smart vs Random Calling")
-    
-    random_rate = df['CarInsurance'].mean()
-    best_hour = df.groupby('CallHour')['CarInsurance'].mean().idxmax()
-    smart_rate = df[df['CallHour'] == best_hour]['CarInsurance'].mean()
-    improvement = ((smart_rate - random_rate) / random_rate) * 100
-    
-    col1, col2 = st.columns(2)
-    col1.metric("Random Calling", f"{random_rate*100:.1f}%")
-    col2.metric("Smart Calling", f"{smart_rate*100:.1f}%", f"+{improvement:.1f}%")
 
 
 def main():
