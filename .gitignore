@@ -136,6 +136,10 @@ celerybeat.pid
 
 # Environments
 .env
+
+# Kubernetes secrets
+k8s/secret.yaml
+k8s/secret.yaml.example
 .envrc
 .venv
 env/

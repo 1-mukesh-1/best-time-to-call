@@ -1,11 +1,17 @@
 """Best Time to Call - Streamlit App."""
 
-import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.express as px
-import joblib
+import json
 import os
+
+import joblib
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+from dotenv import load_dotenv
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
+
+load_dotenv()
 
 st.set_page_config(page_title="Best Time to Call", page_icon="phone", layout="wide")
 
@@ -241,25 +247,132 @@ def dashboard_mode():
         st.plotly_chart(fig, use_container_width=True)
 
 
+def agent_demo_mode():
+    """Live agent demo — select a lead and watch the agent reason and act."""
+    st.header("Agent Demo")
+    st.caption("Select a simulated lead and watch the LangGraph agent reason through their history and decide the next action.")
+
+    if not os.environ.get("OPENAI_API_KEY"):
+        st.warning("OPENAI_API_KEY not set. Set it in your .env file to run the agent.")
+        return
+
+    if not os.path.exists("data/leads.json"):
+        st.error("Simulated data not found. Run the project setup first.")
+        return
+
+    with open("data/leads.json") as f:
+        leads = json.load(f)
+    with open("data/call_logs.json") as f:
+        call_logs = json.load(f)
+
+    lead_options = {f"{l['lead_id']} — {l['name']}": l for l in leads}
+    selected_label = st.selectbox("Select Lead", options=list(lead_options.keys()))
+    lead = lead_options[selected_label]
+    lead_id = lead["lead_id"]
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Lead Profile")
+        st.write(f"**Name:** {lead['name']}")
+        st.write(f"**Age:** {lead['age']}  |  **Job:** {lead['job']}  |  **Marital:** {lead['marital']}")
+        st.write(f"**Education:** {lead['education']}  |  **Balance:** ${lead['balance']:,}")
+        st.write(f"**Car Loan:** {'Yes' if lead['car_loan'] else 'No'}  |  **HH Insurance:** {'Yes' if lead['hh_insurance'] else 'No'}")
+        st.write(f"**Communication:** {lead['communication']}  |  **Previous Outcome:** {lead['outcome']}")
+
+    with col2:
+        st.subheader("Call History")
+        calls = call_logs.get(lead_id, [])
+        if not calls:
+            st.info("No previous calls — new lead.")
+        else:
+            outcomes = {}
+            for c in calls:
+                outcomes[c["outcome"]] = outcomes.get(c["outcome"], 0) + 1
+            st.write(f"**Total attempts:** {len(calls)}")
+            st.write(f"**Outcomes:** {outcomes}")
+            st.write(f"**Recent pattern:** {[c['outcome'] for c in calls[-3:]]}")
+            with st.expander("View transcripts"):
+                for c in calls:
+                    st.markdown(f"**{c['timestamp'][:10]} — {c['outcome']}**")
+                    st.text(c["transcript"])
+                    st.markdown("---")
+
+    st.markdown("---")
+
+    if st.button("Run Agent", type="primary"):
+        from agent.agent import agent, AgentState
+        from agent.prompts import SYSTEM_PROMPT
+
+        initial_state: AgentState = {
+            "messages": [
+                SystemMessage(content=SYSTEM_PROMPT),
+                HumanMessage(content=f"Process lead {lead_id} and take the appropriate action."),
+            ],
+            "lead_id": lead_id,
+        }
+
+        terminal_action = None
+
+        with st.status("Agent is processing...", expanded=True) as status:
+            for event in agent.stream(initial_state, stream_mode="values"):
+                last = event["messages"][-1]
+
+                if isinstance(last, AIMessage) and last.tool_calls:
+                    for tc in last.tool_calls:
+                        st.write(f"**Calling tool:** `{tc['name']}`")
+                        st.code(json.dumps(tc["args"], indent=2), language="json")
+
+                elif isinstance(last, ToolMessage):
+                    try:
+                        result = json.loads(last.content)
+                    except (json.JSONDecodeError, TypeError):
+                        result = last.content
+                    st.write(f"**Result from** `{last.name}`")
+                    st.code(json.dumps(result, indent=2) if isinstance(result, dict) else str(result), language="json")
+                    if last.name in ("schedule_call", "escalate_to_human", "disqualify_lead"):
+                        terminal_action = {"tool": last.name, "result": result}
+
+                elif isinstance(last, AIMessage) and not last.tool_calls and last.content:
+                    st.markdown(f"**Agent reasoning:** {last.content}")
+
+            status.update(label="Agent completed", state="complete")
+
+        if terminal_action:
+            st.markdown("---")
+            st.subheader("Final Decision")
+            tool = terminal_action["tool"]
+            result = terminal_action["result"]
+
+            if tool == "schedule_call":
+                st.success(f"**Call Scheduled** — {result.get('scheduled_time', '')}")
+            elif tool == "escalate_to_human":
+                st.warning(f"**Escalated to Human** — {result.get('reason', '')}")
+            elif tool == "disqualify_lead":
+                st.error(f"**Lead Disqualified** — {result.get('reason', '')}")
+
+
 def main():
     st.title("Best Time to Call")
     st.caption("Predict optimal call times for maximum conversion")
-    
+
     if not os.path.exists("model/xgb_model.joblib"):
         st.error("Model not found. Run `python train_model.py` first.")
         st.stop()
-    
+
     model, label_encoders, feature_cols, categories = load_model()
-    
+
     st.sidebar.title("Mode")
-    mode = st.sidebar.radio("Select:", ["Single Lead", "CSV Upload", "Dashboard"])
-    
+    mode = st.sidebar.radio("Select:", ["Single Lead", "CSV Upload", "Dashboard", "Agent Demo"])
+
     if mode == "Single Lead":
         single_lead_mode(model, label_encoders, feature_cols, categories)
     elif mode == "CSV Upload":
         csv_upload_mode(model, label_encoders, feature_cols, categories)
-    else:
+    elif mode == "Dashboard":
         dashboard_mode()
+    else:
+        agent_demo_mode()
 
 
 if __name__ == "__main__":

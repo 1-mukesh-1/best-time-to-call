@@ -1,0 +1,213 @@
+{
+  "L001": [
+    {
+      "call_id": "C001",
+      "lead_id": "L001",
+      "timestamp": "2026-04-14T09:15:00",
+      "outcome": "voicemail",
+      "duration_seconds": 40,
+      "transcript": "Rep: Hi, this is Alex from SecureAuto calling for James Hartwell. We have a great car insurance offer tailored for you. Please call us back at 555-9000. Thank you and have a great day."
+    },
+    {
+      "call_id": "C002",
+      "lead_id": "L001",
+      "timestamp": "2026-04-17T09:30:00",
+      "outcome": "voicemail",
+      "duration_seconds": 38,
+      "transcript": "Rep: Hello James, this is Alex from SecureAuto again. I wanted to follow up on our car insurance offer. We'd love to connect at your convenience. Please reach us at 555-9000."
+    },
+    {
+      "call_id": "C003",
+      "lead_id": "L001",
+      "timestamp": "2026-04-20T10:00:00",
+      "outcome": "voicemail",
+      "duration_seconds": 35,
+      "transcript": "Rep: Hi James, Alex here from SecureAuto. Third attempt to reach you about our car insurance program. Please give us a call back at 555-9000 when you get a chance."
+    }
+  ],
+  "L002": [
+    {
+      "call_id": "C004",
+      "lead_id": "L002",
+      "timestamp": "2026-04-20T14:00:00",
+      "outcome": "callback_requested",
+      "duration_seconds": 95,
+      "transcript": "Rep: Hi, is this Sandra Kim?\nLead: Yes, who is this?\nRep: Hi Sandra, this is Maria from SecureAuto. I'm reaching out about a car insurance offer we have for you.\nLead: Oh, I'm actually in the middle of something right now. Can you call me back?\nRep: Of course! When would be a good time?\nLead: Try me again next Thursday, maybe around 2pm. That works better for me.\nRep: Absolutely, I'll schedule that for Thursday the 30th at 2pm. Talk to you then!\nLead: Perfect, thanks."
+    },
+    {
+      "call_id": "C005",
+      "lead_id": "L002",
+      "timestamp": "2026-04-22T11:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 25,
+      "transcript": "Rep: Called Sandra Kim at 11am. Phone rang 6 times and went to voicemail. Did not leave a message as callback was already scheduled for Thursday."
+    }
+  ],
+  "L003": [
+    {
+      "call_id": "C006",
+      "lead_id": "L003",
+      "timestamp": "2026-03-10T16:00:00",
+      "outcome": "hung_up",
+      "duration_seconds": 20,
+      "transcript": "Rep: Hello, may I speak with Robert Dunn?\nLead: I think you have the wrong number. There's no Robert here.\nRep: Oh I'm sorry, is this 555-0103?\nLead: Yes but there's no Robert at this number. Please stop calling.\n[Lead hangs up]"
+    },
+    {
+      "call_id": "C007",
+      "lead_id": "L003",
+      "timestamp": "2026-03-15T10:30:00",
+      "outcome": "hung_up",
+      "duration_seconds": 12,
+      "transcript": "Rep: Hi, could I speak with Robert Dunn please?\nLead: I already told you people, wrong number. Do not call again.\n[Lead hangs up immediately]"
+    }
+  ],
+  "L004": [
+    {
+      "call_id": "C008",
+      "lead_id": "L004",
+      "timestamp": "2026-04-12T11:00:00",
+      "outcome": "not_interested",
+      "duration_seconds": 75,
+      "transcript": "Rep: Hi Patricia, this is Tom from SecureAuto. I'm calling about a car insurance offer.\nLead: I already have car insurance and I'm happy with my current provider.\nRep: Understood! We might be able to offer you a better rate. Would you be open to a quick comparison?\nLead: No, I'm really not interested. Please don't call again.\nRep: Of course, I'll make a note of that. Sorry to bother you.\nLead: Thank you."
+    },
+    {
+      "call_id": "C009",
+      "lead_id": "L004",
+      "timestamp": "2026-04-15T14:00:00",
+      "outcome": "not_interested",
+      "duration_seconds": 30,
+      "transcript": "Rep: Hi Patricia, this is Sarah from SecureAuto—\nLead: I told the last person I am not interested and not to call. Please remove me from your list.\nRep: I sincerely apologize, I'll make sure that happens right away.\n[Call ends]"
+    },
+    {
+      "call_id": "C010",
+      "lead_id": "L004",
+      "timestamp": "2026-04-18T10:00:00",
+      "outcome": "hung_up",
+      "duration_seconds": 8,
+      "transcript": "Rep: Hello, may I speak with Patricia—\n[Lead hangs up immediately]"
+    }
+  ],
+  "L005": [],
+  "L006": [
+    {
+      "call_id": "C011",
+      "lead_id": "L006",
+      "timestamp": "2026-04-23T09:00:00",
+      "outcome": "hung_up",
+      "duration_seconds": 15,
+      "transcript": "Rep: Good morning, is this Denise Fuller?\nLead: Yeah, what do you want?\nRep: Hi Denise, I'm calling from SecureAuto about a car insurance—\nLead: Not interested. [Hangs up]"
+    },
+    {
+      "call_id": "C012",
+      "lead_id": "L006",
+      "timestamp": "2026-04-25T15:00:00",
+      "outcome": "hung_up",
+      "duration_seconds": 10,
+      "transcript": "Rep: Hi Denise, this is Chris from SecureAuto—\nLead: I said not interested. Stop calling. [Hangs up]"
+    }
+  ],
+  "L007": [
+    {
+      "call_id": "C013",
+      "lead_id": "L007",
+      "timestamp": "2026-04-26T10:00:00",
+      "outcome": "callback_requested",
+      "duration_seconds": 180,
+      "transcript": "Rep: Hi Alan, this is Rachel from SecureAuto. Calling about our car insurance plans.\nLead: Oh yeah, I've been meaning to look into that actually.\nRep: Great! We have a comprehensive plan starting at $89 a month.\nLead: That sounds reasonable. What does it cover?\nRep: It covers collision, liability, and comprehensive damage. We can also add roadside assistance.\nLead: Interesting. What about deductibles?\nRep: You can choose between $500 and $1000 deductibles depending on your premium preference.\nLead: Okay, I need to look at my current policy and compare. Can you call me back tomorrow?\nRep: Absolutely! What time works?\nLead: Maybe around 11am?\nRep: Perfect, I'll call you tomorrow at 11am. Talk soon!\nLead: Sounds good, thanks."
+    },
+    {
+      "call_id": "C014",
+      "lead_id": "L007",
+      "timestamp": "2026-04-28T11:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 28,
+      "transcript": "Rep: Called Alan Marsh at 11am as scheduled. Phone rang 8 times, no answer, no voicemail set up. Will attempt again later."
+    }
+  ],
+  "L008": [
+    {
+      "call_id": "C015",
+      "lead_id": "L008",
+      "timestamp": "2026-04-28T14:00:00",
+      "outcome": "voicemail",
+      "duration_seconds": 42,
+      "transcript": "Rep: Hi Carol, this is Jenny from SecureAuto. Reaching out about a car insurance offer. Please call us back at 555-9000."
+    },
+    {
+      "call_id": "C016",
+      "lead_id": "L008",
+      "timestamp": "2026-04-30T10:00:00",
+      "outcome": "callback_requested",
+      "duration_seconds": 210,
+      "transcript": "Rep: Hi Carol, Jenny from SecureAuto. Following up on our insurance offer.\nLead: Oh yes! I actually saw your voicemail. I'm a retired teacher and my kids keep telling me I should get better coverage.\nRep: That's great Carol! We have excellent plans for retired individuals.\nLead: What would it cost for a 2020 Camry?\nRep: For your profile it would be around $75 a month with full coverage.\nLead: That's actually less than what I pay now! Can I think about it tonight and you call me tomorrow?\nRep: Of course! I'll call you tomorrow morning.\nLead: Perfect dear, talk to you then!"
+    },
+    {
+      "call_id": "C017",
+      "lead_id": "L008",
+      "timestamp": "2026-05-01T09:30:00",
+      "outcome": "converted",
+      "duration_seconds": 480,
+      "transcript": "Rep: Good morning Carol! It's Jenny from SecureAuto.\nLead: Jenny! Yes, I talked to my husband and we'd like to go ahead with the plan.\nRep: Wonderful! Let me get the paperwork started.\nLead: How do we proceed?\nRep: I'll send you the documents by email and we'll get you set up today.\nLead: Excellent, thank you so much!\nRep: Thank you Carol, welcome to SecureAuto!"
+    }
+  ],
+  "L009": [
+    {
+      "call_id": "C018",
+      "lead_id": "L009",
+      "timestamp": "2026-04-19T11:00:00",
+      "outcome": "callback_requested",
+      "duration_seconds": 140,
+      "transcript": "Rep: Hi Steven, this is Mike from SecureAuto about our car insurance plans.\nLead: Sure, I'm listening.\nRep: We have plans starting at $89 a month with full coverage.\nLead: That's pretty steep for me right now. I'm self-employed and cash flow is tight.\nRep: I understand, we do have more basic plans starting at $55 a month.\nLead: Hmm, that's more like it. Can you send me some details and call back next week?\nRep: Absolutely, I'll email you the brochure and call you Monday.\nLead: Works for me."
+    },
+    {
+      "call_id": "C019",
+      "lead_id": "L009",
+      "timestamp": "2026-04-21T10:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 22,
+      "transcript": "Rep: Called Steven Park on Monday at 10am as promised. No answer, left voicemail mentioning the $55 basic plan."
+    },
+    {
+      "call_id": "C020",
+      "lead_id": "L009",
+      "timestamp": "2026-04-24T14:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 20,
+      "transcript": "Rep: Second follow-up call. Steven did not answer. Did not leave another voicemail to avoid appearing pushy."
+    }
+  ],
+  "L010": [
+    {
+      "call_id": "C021",
+      "lead_id": "L010",
+      "timestamp": "2026-02-20T10:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 22,
+      "transcript": "Rep: Called Linda Chang, no answer. Left voicemail about SecureAuto insurance offer."
+    },
+    {
+      "call_id": "C022",
+      "lead_id": "L010",
+      "timestamp": "2026-03-01T11:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 20,
+      "transcript": "Rep: Second attempt. Linda did not answer. No voicemail left."
+    },
+    {
+      "call_id": "C023",
+      "lead_id": "L010",
+      "timestamp": "2026-03-08T14:00:00",
+      "outcome": "voicemail",
+      "duration_seconds": 38,
+      "transcript": "Rep: Hi Linda, this is Dana from SecureAuto. Third time reaching out about our car insurance plans. We'd love to help you find coverage that fits your budget. Please call us at 555-9000."
+    },
+    {
+      "call_id": "C024",
+      "lead_id": "L010",
+      "timestamp": "2026-03-10T09:00:00",
+      "outcome": "no_answer",
+      "duration_seconds": 18,
+      "transcript": "Rep: Fourth attempt. Linda still not answering. Considering disqualification."
+    }
+  ]
+}

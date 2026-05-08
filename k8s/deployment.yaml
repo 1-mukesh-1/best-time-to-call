@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lead-agent-worker
+  namespace: best-time-to-call
+  labels:
+    app: lead-agent-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lead-agent-worker
+  template:
+    metadata:
+      labels:
+        app: lead-agent-worker
+    spec:
+      containers:
+        - name: worker
+          image: lead-agent-worker:latest
+          imagePullPolicy: Never        # use local image in minikube
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          envFrom:
+            - configMapRef:
+                name: agent-config
+            - secretRef:
+                name: agent-secrets
+          livenessProbe:
+            exec:
+              command: ["python", "-c", "import agent.agent"]
+            initialDelaySeconds: 15
+            periodSeconds: 30

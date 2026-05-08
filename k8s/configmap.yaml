@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-config
+  namespace: best-time-to-call
+data:
+  AWS_REGION: "us-east-1"
+  S3_BUCKET_NAME: "best-time-to-call-demo"
+  SQS_QUEUE_NAME: "lead-call-events"
